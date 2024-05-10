@@ -1,0 +1,281 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider        = "prisma-client-js"
+  previewFeatures = ["fullTextIndex", "fullTextSearch"]
+}
+
+datasource db {
+  provider     = "postgresql"
+  url          = env("DATABASE_URL")
+  relationMode = "prisma"
+}
+
+model User {
+  id        Int      @id @default(autoincrement())
+  email     String   @unique
+  password  String
+  firstName String
+  lastName  String
+  createdAt DateTime @default(now())
+}
+
+model Admin {
+  id        Int      @id @default(autoincrement())
+  email     String   @unique
+  password  String
+  createdAt DateTime @default(now())
+}
+
+model Hotel {
+  id                  String    @id @default(uuid())
+  userId              String
+  title               String    @db.Text
+  description         String
+  image               String
+  country             String
+  state               String
+  city                String
+  locationDescription String
+  gym                 Boolean   @default(false)
+  spa                 Boolean   @default(false)
+  bar                 Boolean   @default(false)
+  laundry             Boolean   @default(false)
+  restaurant          Boolean   @default(false)
+  shopping            Boolean   @default(false)
+  freeParking         Boolean   @default(false)
+  bikeRental          Boolean   @default(false)
+  freeWifi            Boolean   @default(false)
+  movieNights         Boolean   @default(false)
+  swimmingPool        Boolean   @default(false)
+  coffeShop           Boolean   @default(false)
+  addedAt             DateTime  @default(now())
+  updatedAt           DateTime  @default(now())
+  rooms               Room[]
+  bookings            Booking[]
+}
+
+model Flight {
+  id             String          @id @default(uuid())
+  userId         String
+  name           String
+  description    String
+  image          String
+  departureTime  String
+  arrivalTime    String
+  duration       String
+  fromCountry    String
+  toCountry      String
+  addedAt        DateTime        @default(now())
+  updatedAt      DateTime        @default(now())
+  bookingFlights BookingFlight[]
+  types          typeFlight[]
+}
+
+model Trip {
+  id                  String        @id @default(uuid())
+  userId              String
+  title               String        @db.Text
+  description         String
+  image               String
+  country             String
+  state               String
+  city                String
+  destinationDetails  String
+  locationDescription String
+  departureTime       String
+  arrivalTime         String
+  duration            String
+  addedAt             DateTime      @default(now())
+  updatedAt           DateTime      @default(now())
+  bookedAt            DateTime      @default(now())
+  tourGuide           Boolean       @default(false)
+  transportation      Boolean       @default(false)
+  supportService      Boolean       @default(false)
+  activities          Boolean       @default(false)
+  destinations        Destination[]
+  roomtrips           RoomTrip[]
+  bookingtrips        BookingTrip[]
+}
+
+model BookingTrip {
+  id                String   @id @default(uuid())
+  userName          String
+  userEmail         String
+  userId            String
+  tripId            String
+  roomtripId        String
+  tripOwnerId       String
+  breakFastIncluded Boolean
+  currency          String
+  totalPrice        Int
+  paymentStatus     Boolean  @default(false)
+  paymentIntentId   String   @unique
+  availableSeats    Int // Thêm trường số lượng chỗ trống
+  member            Int
+  bookedAt          DateTime @default(now())
+
+  Trip Trip? @relation(fields: [tripId], references: [id])
+
+  RoomTrip RoomTrip? @relation(fields: [roomtripId], references: [id])
+
+  @@index([tripId])
+  @@index([roomtripId])
+}
+
+model Booking {
+  id                String   @id @default(uuid())
+  userName          String
+  userEmail         String
+  userId            String
+  hotelId           String
+  roomId            String
+  hotelOwnerId      String
+  startDate         DateTime
+  endDate           DateTime
+  breakFastIncluded Boolean
+  currency          String
+  totalPrice        Int
+  paymentStatus     Boolean  @default(false)
+  paymentIntentId   String   @unique
+  bookedAt          DateTime @default(now())
+
+  Hotel Hotel? @relation(fields: [hotelId], references: [id])
+
+  Room Room? @relation(fields: [roomId], references: [id])
+
+  @@index([hotelId])
+  @@index([roomId])
+}
+
+model RoomTrip {
+  id             String  @id @default(uuid())
+  title          String
+  description    String
+  bedCount       Int     @default(0)
+  guestCount     Int     @default(0)
+  bathroomCount  Int     @default(0)
+  kingBed        Int     @default(0)
+  queenBed       Int     @default(0)
+  image          String
+  breakFastPrice Int
+  roomPrice      Int
+  roomService    Boolean @default(false)
+  TV             Boolean @default(false)
+  balcony        Boolean @default(false)
+  freeWifi       Boolean @default(false)
+  cityView       Boolean @default(false)
+  oceanView      Boolean @default(false)
+  forestView     Boolean @default(false)
+  mountainView   Boolean @default(false)
+  airCondition   Boolean @default(false)
+  soundProofed   Boolean @default(false)
+  availableSeats Int // Thêm trường số lượng chỗ trống
+  member         Int
+  tripId         String
+
+  Trip Trip? @relation(fields: [tripId], references: [id], onDelete: Cascade)
+
+  bookingtrips BookingTrip[]
+
+  @@index([tripId])
+}
+
+model Destination {
+  id          String @id @default(uuid())
+  title       String
+  description String
+  image       String
+  tripId      String
+  Trip        Trip?  @relation(fields: [tripId], references: [id], onDelete: Cascade)
+
+  @@index([tripId])
+}
+
+model Room {
+  id             String  @id @default(uuid())
+  title          String
+  description    String
+  bedCount       Int     @default(0)
+  guestCount     Int     @default(0)
+  bathroomCount  Int     @default(0)
+  kingBed        Int     @default(0)
+  queenBed       Int     @default(0)
+  image          String
+  breakFastPrice Int
+  roomPrice      Int
+  roomService    Boolean @default(false)
+  TV             Boolean @default(false)
+  balcony        Boolean @default(false)
+  freeWifi       Boolean @default(false)
+  cityView       Boolean @default(false)
+  oceanView      Boolean @default(false)
+  forestView     Boolean @default(false)
+  mountainView   Boolean @default(false)
+  airCondition   Boolean @default(false)
+  soundProofed   Boolean @default(false)
+  hotelId        String
+
+  Hotel Hotel? @relation(fields: [hotelId], references: [id], onDelete: Cascade)
+
+  Booking Booking[]
+
+  @@index([hotelId])
+}
+
+model typeFlight {
+  id               String  @id @default(uuid())
+  title            String
+  description      String
+  image            String
+  breakFastPrice   Int
+  adultCount       Int
+  childrenCount    Int
+  roomPrice        Int
+  roomService      Boolean @default(false)
+  TV               Boolean @default(false)
+  freeWifi         Boolean @default(false)
+  availableSeats   Int // Thêm trường số lượng chỗ trống
+  //normal
+  serviceMeal      Boolean @default(false) // Dịch vụ ăn
+  serviceBaggage   Boolean @default(false) // Hành lý
+  seatSelection    Boolean @default(false) // Lựa chọn ghế
+  priorityBoarding Boolean @default(false) // Lên máy bay ưu tiên
+  //vip
+  loungeAccess     Boolean @default(false) // Truy cập phòng chờ
+  luxuryMeal       Boolean @default(false) // Bữa ăn sang trọng
+  limousine        Boolean @default(false) // Dịch vụ limousine
+  personalButler   Boolean @default(false) // Tiếp viên cá nhân
+  flightId         String
+
+  Flight Flight? @relation(fields: [flightId], references: [id], onDelete: Cascade)
+
+  BookingFlight BookingFlight[]
+
+  @@index([flightId])
+}
+
+model BookingFlight {
+  id                String      @id @default(uuid())
+  userName          String
+  userEmail         String
+  userId            String
+  flightId          String
+  typeFlightId      String
+  flightOwnerId     String
+  breakFastIncluded Boolean
+  adultCount        Int
+  childrenCount     Int
+  currency          String
+  totalPrice        Int
+  paymentStatus     Boolean     @default(false)
+  paymentIntentId   String      @unique
+  bookedAt          DateTime    @default(now())
+  availableSeats    Int // Thêm trường số lượng chỗ trống
+  Flight            Flight?     @relation(fields: [flightId], references: [id])
+  Type              typeFlight? @relation(fields: [typeFlightId], references: [id])
+
+  @@index([flightId])
+  @@index([typeFlightId])
+}

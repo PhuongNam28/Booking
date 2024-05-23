@@ -164,8 +164,6 @@ export const UserList: React.FC<UserListProps> = ({
     const data = {
       id: chatroom.id,
       myData: userData,
-      otherData:
-        chatroom.usersData[chatroom.users.find((id) => id !== userData.id)],
     };
 
     setSelectedChatroom(data);
@@ -238,21 +236,6 @@ export const UserList: React.FC<UserListProps> = ({
                     openChat(chatroom);
                   }}
                 >
-                  <UserCard
-                    name={
-                      chatroom.usersData[
-                        chatroom.users.find((id) => id !== userData?.id)
-                      ]?.name
-                    }
-                    avatarUrl={
-                      chatroom.usersData[
-                        chatroom.users.find((id) => id !== userData?.id)
-                      ]?.avatarUrl
-                    }
-                    latestMessage={chatroom.lastMessage}
-                    time={timestampToString(chatroom.timestamp)}
-                    type="chat"
-                  />
                 </div>
               ))
             )}

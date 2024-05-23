@@ -5,7 +5,8 @@ import apiClient from "@/lib/api-client";
 import { ADMIN_API_ROUTES } from "@/ultis/api-route";
 import { Metrics } from "./components/metrics";
 import { ScrapingChart } from "./components/charts";
-import { SalesProps } from "./components/bookings/bookings";
+import SalesCard, { SalesProps } from "@/components/SalesCard";
+import { CardContent } from "@/components/CardProps";
 
 const Dashboard = () => {
   const [trips, setTrips] = useState(0);
@@ -19,6 +20,34 @@ const Dashboard = () => {
   const [totalPrice_bookingFlight, setTotalPrice_bookingFlight] = useState(0);
   const [total, setTotal] = useState(0);
   const [salesData, setSalesData] = useState<SalesProps[]>([]);
+
+  const uesrSalesData: SalesProps[] = [
+    {
+      name: "Olivia Martin",
+      email: "olivia.martin@email.com",
+      saleAmount: "+$1,999.00",
+    },
+    {
+      name: "Jackson Lee",
+      email: "isabella.nguyen@email.com",
+      saleAmount: "+$1,999.00",
+    },
+    {
+      name: "Isabella Nguyen",
+      email: "isabella.nguyen@email.com",
+      saleAmount: "+$39.00",
+    },
+    {
+      name: "William Kim",
+      email: "will@email.com",
+      saleAmount: "+$299.00",
+    },
+    {
+      name: "Sofia Davis",
+      email: "sofia.davis@email.com",
+      saleAmount: "+$39.00",
+    },
+  ];
 
   const handleSalesDataChange = (data: SalesProps[]) => {
     setSalesData(data);
@@ -59,8 +88,26 @@ const Dashboard = () => {
         </section>
       </section>
       <section className="grid grid-cols-1  gap-4 transition-all lg:grid-cols-2">
-        <ScrapingChart />
-        <section></section>
+        <CardContent>
+          <ScrapingChart />
+        </CardContent>
+
+        <CardContent className="flex justify-between gap-4">
+          <section>
+            <p>Recent Sales</p>
+            <p className="text-sm text-gray-400">
+              You made 265 sales this month.
+            </p>
+          </section>
+          {uesrSalesData.map((d, i) => (
+            <SalesCard
+              key={i}
+              email={d.email}
+              name={d.name}
+              saleAmount={d.saleAmount}
+            />
+          ))}
+        </CardContent>
       </section>
     </div>
   );

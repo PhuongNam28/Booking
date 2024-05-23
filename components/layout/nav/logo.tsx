@@ -1,10 +1,13 @@
 import Image from "next/image";
+import Link from "next/link";
 
 const Logo = () => {
   return (
     <div>
-      <Image src="/logo.svg" alt="logo" width={30} height={30} />
-      <div className="font-bold text-xl">PalmTree</div>
+      <Link href="/" className="flex items-center">
+        <Image src="/logo.svg" alt="logo" width={30} height={30} />
+        <div className="font-bold text-xl ml-2">PalmTree</div>
+      </Link>
     </div>
   );
 };

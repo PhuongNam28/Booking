@@ -7,6 +7,7 @@ import Footer from "@/components/layout/footer/Footer";
 import Container from "@/components/Container";
 import { Toaster } from "@/components/ui/toaster";
 import NavbarTest from "@/components/layout/nav/page";
+import React from "react";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -39,7 +40,6 @@ export default function RootLayout({
                 <Container>{children}</Container>
               </section>
             </main>
-            <Footer />
           </ThemeProvider>
         </body>
       </html>

@@ -30,13 +30,13 @@ interface Message {
 
 interface SelectedChatroom {
   id: string;
-  myData: UserData;
-  otherData: UserData;
+  myData: UserData | null;
+  otherData: UserData | null;
 }
 
 interface Props {
   user: UserData;
-  selectedChatroom: SelectedChatroom | null;
+  selectedChatroom: SelectedChatroom;
 }
 
 const ChatRoom = ({ user, selectedChatroom }: Props) => {

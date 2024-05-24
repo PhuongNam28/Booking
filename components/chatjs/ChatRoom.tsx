@@ -40,8 +40,8 @@ interface Props {
 }
 
 function ChatRoom({ user, selectedChatroom }: Props) {
-  let me = selectedChatroom && selectedChatroom.myData;
-  let other = selectedChatroom && selectedChatroom.otherData;
+  const me = selectedChatroom?.myData ?? { id: "", avatarUrl: "" };
+  const other = selectedChatroom?.otherData ?? { id: "", avatarUrl: "" };
   const chatRoomId = selectedChatroom && selectedChatroom.id;
 
   const [message, setMessage] = useState<string>("");

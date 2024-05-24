@@ -30,18 +30,18 @@ interface Message {
 
 interface SelectedChatroom {
   id: string;
-  myData: UserData;
-  otherData: UserData;
+  myData: UserData | null;
+  otherData: UserData | null;
 }
 
 interface Props {
   user: UserData;
-  selectedChatroom: SelectedChatroom | null;
+  selectedChatroom: SelectedChatroom;
 }
 
-function ChatRoom({ user, selectedChatroom }: Props) {
-  let me = selectedChatroom && selectedChatroom.myData;
-  let other = selectedChatroom && selectedChatroom.otherData;
+const ChatRoom = ({ user, selectedChatroom }: Props) => {
+  const me = selectedChatroom?.myData;
+  const other = selectedChatroom?.otherData;
   const chatRoomId = selectedChatroom && selectedChatroom.id;
 
   const [message, setMessage] = useState<string>("");
@@ -121,8 +121,12 @@ function ChatRoom({ user, selectedChatroom }: Props) {
 
   if (!me || !other) {
     // Xử lý trường hợp 'undefined' ở đây, ví dụ:
-    console.error("Không thể tìm thấy thông tin người dùng.");
-    return null; // hoặc xử lý tùy thuộc vào trường hợp cụ thể của bạn
+    console.error("No userData.");
+    return (
+      <div className="flex items-center justify-center h-screen">
+        <p className="text-red-500">No user data found.</p>
+      </div>
+    );
   }
 
   return (
@@ -149,6 +153,6 @@ function ChatRoom({ user, selectedChatroom }: Props) {
       />
     </div>
   );
-}
+};
 
 export default ChatRoom;

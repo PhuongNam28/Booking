@@ -4,6 +4,7 @@ import { useState } from "react";
 import { X } from "lucide-react";
 import Link from "next/link";
 import MainButton from "./MainButton";
+import Image from "next/image";
 
 function NavBar() {
   const [menu, setMenu] = useState(false);
@@ -17,7 +18,7 @@ function NavBar() {
       <div className=" hidden lg:block animate-in fade-in zoom-in  p-4 ">
         <div className="flex justify-between items-center">
           <div>
-            <img src="/images/logo.png" alt="logo" />
+            <Image src="/images/logo.png" alt="logo" width={50} height={50} />
           </div>
           <div className="flex gap-[20px] xl:gap-[50px] text-[16px] items-center select-none">
             <p
@@ -56,7 +57,12 @@ function NavBar() {
             <div className="flex gap-2 items-center cursor-pointer">
               <p className="font-[700]">EN</p>
               <div>
-                <img src="/images/chevron-down.png" alt="chevron down" />
+                <Image
+                  src="/images/chevron-down.png"
+                  alt="chevron down"
+                  width={30}
+                  height={30}
+                />
               </div>
             </div>
           </div>
@@ -70,7 +76,13 @@ function NavBar() {
       >
         <div className="flex justify-between mx-[10px]">
           <div className="flex gap-[50px] text-[16px] items-center select-none">
-            <img src="/images/logo.png" alt="logo" className="w-[7rem]" />
+            <Image
+              src="/images/logo.png"
+              alt="logo"
+              className="w-[7rem]"
+              width={50}
+              height={50}
+            />
           </div>
           <div className="flex items-center gap-[40px]">
             {menu ? (
@@ -79,11 +91,13 @@ function NavBar() {
                 onClick={toggleMenu}
               />
             ) : (
-              <img
+              <Image
                 src="/images/hamburger.svg"
                 alt="logo"
                 className="cursor-pointer animate-in fade-in zoom-in"
                 onClick={toggleMenu}
+                width={50}
+                height={50}
               />
             )}
           </div>
@@ -128,7 +142,12 @@ function NavBar() {
                 <div className="flex gap-2 items-center cursor-pointer">
                   <p className="font-[700]">EN</p>
                   <div>
-                    <img src="/images/chevron-down.png" alt="chevron down" />
+                    <Image
+                      src="/images/chevron-down.png"
+                      alt="chevron down"
+                      width={50}
+                      height={50}
+                    />
                   </div>
                 </div>
               </div>

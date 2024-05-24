@@ -3,7 +3,8 @@ const nextConfig = {
     images: {
       // Remove the 'domains' configuration
       // Replace it with 'remotePatterns'
-      // Add the remote patterns for image optimization
+      // Add the remote patterns for image optimization 
+      domains: ['firebasestorage.googleapis.com'],
       remotePatterns: [
         {
           // Add the pattern for avataaars.io

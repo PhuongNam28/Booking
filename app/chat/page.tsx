@@ -1,79 +1,64 @@
 "use client";
-import React, { useState, useEffect } from "react";
-import { useRouter } from "next/navigation";
-import {
-  getAuth,
-  onAuthStateChanged,
-  User as FirebaseUser,
-} from "firebase/auth";
+import React, { useEffect, useState } from "react";
 import { app, firestore } from "@/lib/firebase";
+import { getAuth, onAuthStateChanged } from "firebase/auth";
 import { doc, getDoc } from "firebase/firestore";
-import { UserList } from "@/components/user/UserList"; // Assuming UserList is a better name for user listing
-import { ChatRoom } from "@/components/chat/ChatRoom";
+import { useRouter } from "next/navigation";
 
-// Define the structure of your user data here
-interface User {
-  email: string;
-  id: string;
-  name: string;
-  avatarUrl: string;
-  // Add any other fields you have in your Firestore user document
-}
+import Users from "@/components/userjs/Users";
+import ChatRoom from "@/components/chatjs/ChatRoom";
 
-// Define the structure for selected chatroom
-interface Chatroom {
-  id: string;
-  // Add other chatroom related fields
-}
-
-export default function Chat() {
+function Page() {
   const auth = getAuth(app);
-  const [user, setUser] = useState<User | null>(null);
+  const [user, setUser] = useState<any>(null); // or define type for user
   const router = useRouter();
-  const [selectedChatroom, setSelectedChatroom] = useState<Chatroom | null>(
-    null
-  );
+  const [selectedChatroom, setSelectedChatroom] = useState<any>(null); // or define type for chatroom
 
   useEffect(() => {
-    const unsubscribe = onAuthStateChanged(
-      auth,
-      async (firebaseUser: FirebaseUser | null) => {
-        if (firebaseUser) {
-          const userRef = doc(firestore, "users", firebaseUser.uid);
-          const userSnap = await getDoc(userRef);
-          if (userSnap.exists()) {
-            const userData = {
-              email: firebaseUser.email || "",
-              id: userSnap.id,
-              name: userSnap.data().name || "",
-              avatarUrl: userSnap.data().avatarUrl || "",
-              // Add any other fields you have in your Firestore user document
-            } as User;
-            setUser(userData);
-          } else {
-            setUser(null); // Handle case where user data is undefined
-          }
+    // Use onAuthStateChanged to listen for changes in authentication state
+    const unsubscribe = onAuthStateChanged(auth, async (user) => {
+      if (user) {
+        const docRef = doc(firestore, "users", user.uid);
+        const docSnap = await getDoc(docRef);
+        if (docSnap.exists()) {
+          const data = { id: docSnap.id, ...docSnap.data() }; // removed unnecessary parentheses
+          setUser(data);
         } else {
-          setUser(null);
-          router.push("/login");
+          console.log("No such document!");
         }
+      } else {
+        setUser(null);
+        router.push("/login");
       }
-    );
+    });
     return () => unsubscribe();
   }, [auth, router]);
 
-  if (!user) {
-    return <div>Loading...</div>;
-  }
+  if (user === null) return <div className="text-4xl">Loading...</div>;
 
   return (
     <div className="flex h-screen">
+      {/* Left side users */}
       <div className="flex-shrink-0 w-3/12">
-        <UserList userData={user} setSelectedChatroom={setSelectedChatroom} />
+        <Users userData={user} setSelectedChatroom={setSelectedChatroom} />
       </div>
-      <div className="flex-grow">
-        <ChatRoom user={user} selectedChatroom={selectedChatroom} />
+
+      {/* Right side chat room */}
+      <div className="flex-grow w-9/12">
+        {selectedChatroom ? (
+          <>
+            <ChatRoom user={user} selectedChatroom={selectedChatroom} />
+          </>
+        ) : (
+          <>
+            <div className="flex items-center justify-center h-full">
+              <div className="text-2xl text-gray-400">Select a chatroom</div>
+            </div>
+          </>
+        )}
       </div>
     </div>
   );
 }
+
+export default Page;

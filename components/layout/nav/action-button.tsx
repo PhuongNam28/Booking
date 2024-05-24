@@ -58,12 +58,12 @@ const ActionButton = () => {
                   <Link href="/hotel-list">Hotels</Link>
                   <Link href="/flight-list">Flights</Link>
                   <Link href="/trip-list">Trips</Link>
-                  <Link href="/">Contact</Link>
-                  <Link href="/">About</Link>
+                  <Link href="/chat">Chat</Link>
                   <Link href="/my-booking">My-booking Hotels</Link>
                   <Link href="/my-bookings-flight">My-booking Flights</Link>
                   <Link href="/my-bookings-trip">My-booking Trips</Link>
-
+                  <Link href="/">Contact</Link>
+                  <Link href="/">About</Link>
                   <Link href="/" onClick={handleLogout}>
                     Log Out
                   </Link>

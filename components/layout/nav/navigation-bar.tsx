@@ -96,6 +96,19 @@ const NavigationBar = () => {
             </NavigationMenuLink>
           </Link>
         </NavigationMenuItem>
+
+        <NavigationMenuItem>
+          <Link
+            href="/chat"
+            className={`${pathname === "/" ? "text-danger-500" : "text-white"}`}
+            legacyBehavior
+            passHref
+          >
+            <NavigationMenuLink className={navigationMenuTriggerStyle()}>
+              Chat
+            </NavigationMenuLink>
+          </Link>
+        </NavigationMenuItem>
       </NavigationMenuList>
     </NavigationMenu>
   );

@@ -1,9 +1,16 @@
+"use client";
 import React from "react";
 import Image from "next/image";
 import MainButton from "../common/MainButton";
 import { Button } from "../ui/button";
+import { useRouter } from "next/navigation";
 
 function HeroSection() {
+  const router = useRouter();
+
+  const handleTrip = () => {
+    router.push("/trip-list");
+  };
   return (
     <section className="flex justify-between items-center mt-16 md:z-[9999]">
       <div className="pt-32 md:pt-4">
@@ -38,16 +45,12 @@ function HeroSection() {
 
         <div className="flex gap-6 items-center">
           <div>
-            <Button>Find your more</Button>
-          </div>
-          <div className="flex items-center mt-6 hover:cursor-pointer">
-            <Image
-              src="/images/play-shadow.png"
-              alt="rounded play icon with shadow"
-              width={50}
-              height={50}
-            />
-            <p className="text-lightGrayAlt -mt-6">Play Demo</p>
+            <Button
+              onClick={handleTrip}
+              className="rounded-md bg-green-500 text-white px-4 py-2"
+            >
+              Find your more
+            </Button>
           </div>
         </div>
       </div>

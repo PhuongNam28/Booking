@@ -1,3 +1,4 @@
+import { Action } from "@/components/Action";
 import { ModeToggle } from "@/components/theme-toogle";
 import { Button } from "@/components/ui/button";
 import {
@@ -74,8 +75,9 @@ const ActionButton = () => {
         </Sheet>
       </div>
       <div className="hidden md:flex md:space-x-4">
-        <div>
+        <div className="flex items-center space-x-4">
           <ModeToggle />
+          <Action />
         </div>
         <UserButton afterSignOutUrl="/" />
         {!userId && (

@@ -34,9 +34,12 @@ export default function RootLayout({
           >
             <Toaster />
             <main className="flex flex-col min-h-screen">
-              <NavbarTest />
-
-              <section className="flex-grow">
+              {/* Add fixed positioning to NavbarTest */}
+              <div className="fixed top-0 left-0 right-0 z-50">
+                <NavbarTest />
+              </div>
+              <section className="flex-grow pt-[60px]">
+                {/* Adjust top padding to compensate for fixed navbar */}
                 <Container>{children}</Container>
               </section>
             </main>

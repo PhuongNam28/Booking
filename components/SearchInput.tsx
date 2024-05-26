@@ -40,7 +40,7 @@ const SearchInput = () => {
     setValue(e.target.value);
   };
 
-  if (pathname != "/") return null;
+  if (pathname != "/hotel-list") return null;
   return (
     <div className="relative mx-auto block w-48">
       <Search className="absolute h-4 w-4 top-3 left-3 text-muted-foreground" />

@@ -46,7 +46,8 @@ const LocationFilter = () => {
   }, [country, state]);
 
   useEffect(() => {
-    if (country === "" && state === "" && city === "") return router.push("/");
+    if (country === "" && state === "" && city === "")
+      return router.push("/hotel-list");
 
     let currentQuery: any = {};
 
@@ -85,7 +86,7 @@ const LocationFilter = () => {
 
     const url = qs.stringifyUrl(
       {
-        url: "/",
+        url: "/hotel-list",
         query: currentQuery,
       },
       { skipNull: true, skipEmptyString: true }
@@ -95,7 +96,7 @@ const LocationFilter = () => {
   }, [country, state, city]);
 
   const handleClear = () => {
-    router.push("/");
+    router.push("/hotel-list");
     setCountry("");
     setState("");
     setCity("");

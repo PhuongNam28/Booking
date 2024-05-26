@@ -263,7 +263,7 @@ const AddFlightForm = ({ flight }: AddFlightFormProps) => {
       <Form {...form}>
         <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
           <h3 className="text-lg font-semibold">
-            {flight ? "Update your hotel!" : "Describe your hotel!"}
+            {flight ? "Update your Flight!" : "Describe your Flight!"}
           </h3>
           <div className="flex flex-col md:flex-row gap-6">
             <div className="flex-1 flex flex-col gap-6">
